@@ -1,4 +1,6 @@
 package com.ds.e_commerce_backend.model;
+import com.ds.e_commerce_backend.constant.ProductsCategory;
+
 import java.util.Date;
 
 // 對應 products 資料表
@@ -7,7 +9,7 @@ public class Products {
     // 資料表對應欄位
     private Integer productId ;
     private String productName ;
-    private String category ;
+    private ProductsCategory category ;  //  Enum 型別（ 可 Cmd+點選，快速檢視所列舉的類型 ）
     private String imageUrl ;
     private Integer price ;
     private Integer stock ;
@@ -34,11 +36,11 @@ public class Products {
         this.productName = productName;
     }
 
-    public String getCategory() {
+    public ProductsCategory getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(ProductsCategory category) {
         this.category = category;
     }
 
