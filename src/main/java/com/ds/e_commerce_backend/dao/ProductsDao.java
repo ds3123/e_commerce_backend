@@ -15,7 +15,7 @@ public interface ProductsDao {
     void updateProduct( Integer productId , ProductRequest productRequest ) ;
 
     // 刪除 _ 商品
-
+    void deleteProductById( Integer productId ) ;
 
 
 }

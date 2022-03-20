@@ -39,5 +39,11 @@ public class ProductsServiceImpl implements ProductsService {
 
 
     // 刪除 _ 商品
+    @Override
+    public void deleteProductById(Integer productId) {
+
+        productsDao.deleteProductById( productId ) ;
+
+    }
 
 }

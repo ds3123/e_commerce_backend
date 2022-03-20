@@ -54,12 +54,10 @@ public class ProductsController {
 
         Products product = productsService.getProductById( productId ) ;
 
-
         // 先確認欲更新的商品，是否存在 --> 若不存在，回傳 404
         if( product == null ){
             return ResponseEntity.status( HttpStatus.NOT_FOUND ).build() ;
         }
-
 
         // 修改商品
         productsService.updateProduct( productId , productRequest ) ;
@@ -70,6 +68,24 @@ public class ProductsController {
         // 回傳更新成功訊息( 200 / 更新的商品資訊 )
         return ResponseEntity.status( HttpStatus.OK ).body( updatedProduct ) ;
 
+    }
+
+
+    // 刪除 _ 商品
+    @DeleteMapping("/products/{productId}")
+    public ResponseEntity<?> deleteProduct( @PathVariable Integer productId ){
+
+        // 刪除商品
+        /*
+            * 不需檢查 _ 商品是否存在
+            * 對於前端來說，僅需得知結果：商品是否存在( 回傳 204 NO_CONTENT )
+              --> 只要確認商品消失不見
+        */
+
+         productsService.deleteProductById( productId ) ;
+
+         // 回傳刪除成功訊息 ( 204 )
+         return ResponseEntity.status( HttpStatus.NO_CONTENT ).build() ; // 204
 
     }
 

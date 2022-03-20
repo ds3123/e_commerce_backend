@@ -110,6 +110,16 @@ public class ProductsDaoImpl implements ProductsDao {
 
 
     // 刪除 _ 商品
+    @Override
+    public void deleteProductById(Integer productId) {
 
+        String sql = "DELETE FROM products WHERE product_id = :productId" ;
+
+        Map<String , Object> map = new HashMap<>() ;
+        map.put( "productId" , productId ) ;
+
+        namedParameterJdbcTemplate.update( sql , map );
+
+    }
 
 }
