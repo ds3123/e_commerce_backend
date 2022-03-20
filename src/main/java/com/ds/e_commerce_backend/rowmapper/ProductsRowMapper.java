@@ -30,10 +30,9 @@ public class ProductsRowMapper implements RowMapper<Products> {
            products.setCategory( ProductsCategory.valueOf( resultSet.getString("category") )  );
 
          */
-        String categoryStr        = resultSet.getString( "category" ) ;
-        ProductsCategory category = ProductsCategory.valueOf( categoryStr ) ;  // 轉為 ProductsCategory( Enum ) 類型
+        String categoryStr        = resultSet.getString( "category" ) ; // 查詢出 category 欄位字串
+        ProductsCategory category = ProductsCategory.valueOf( categoryStr ) ;      // 將 category 欄位字串，轉為 ProductsCategory( Enum ) 類型
         products.setCategory( category );
-
 
         products.setImageUrl( resultSet.getString("image_url") );
         products.setPrice( resultSet.getInt("price") );

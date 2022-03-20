@@ -1,32 +1,37 @@
-package com.ds.e_commerce_backend.model;
+
+package com.ds.e_commerce_backend.dto;
 import com.ds.e_commerce_backend.constant.ProductsCategory;
-import java.util.Date ;
+import javax.validation.constraints.NotNull;
 
+/*
 
-// 對應 products 資料表
-public class Products {
+   @ 分擔處理 ( 避免 Products 類別過於龐雜 ) _ 前端傳來的 JSON 資料 ( Products 商品 )
+     --> 驗證前端參數
+       ＠NotNull
 
-    // 資料表對應欄位
-    private Integer productId ;
+*/
+
+public class ProductRequest {
+
+    // 前端傳遞的參數
+    @NotNull
     private String productName ;
+
     private ProductsCategory category ;  //  Enum 型別（ 可 Cmd+點選，快速檢視所列舉的類型 ）
+
+    @NotNull
     private String imageUrl ;
+
+    @NotNull
     private Integer price ;
+
+    @NotNull
     private Integer stock ;
+
     private String description ;
-    private Date createdDate ;
-    private Date lastModifiedDate ;
 
 
     // Getter & Setter
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
-
     public String getProductName() {
         return productName;
     }
@@ -75,21 +80,6 @@ public class Products {
         this.description = description;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Date getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(Date lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
 
 
 }
