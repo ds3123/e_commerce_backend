@@ -11,4 +11,10 @@ public interface ProductsService {
     // 新增 _ 商品
     Integer createProduct( ProductRequest productRequest ) ;
 
+    // 更新 _ 商品
+    void updateProduct( Integer productId , ProductRequest productRequest ) ;
+
+    // 刪除 _ 商品
+
+
 }

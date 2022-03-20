@@ -39,14 +39,39 @@ public class ProductsController {
         Integer productId = productsService.createProduct( productRequest ) ;
 
         // 取得新增的商品
-        Products product  = productsService.getProductById( productId ) ;
+        Products createdProduct  = productsService.getProductById( productId ) ;
 
-        // 回傳新增成功訊息( 201 / 商品資訊 )
-        return ResponseEntity.status( HttpStatus.CREATED ).body( product ) ; // 201
+        // 回傳新增成功訊息( 201 / 新增的商品資訊 )
+        return ResponseEntity.status( HttpStatus.CREATED ).body( createdProduct ) ;
 
     }
 
+    // 修改 _ 商品
+    @PutMapping("/products/{productId}")
+    public ResponseEntity<Products> updateProduct( @PathVariable Integer productId ,
+                                                   @RequestBody @Valid ProductRequest productRequest
+                                                 ){
 
+        Products product = productsService.getProductById( productId ) ;
+
+
+        // 先確認欲更新的商品，是否存在 --> 若不存在，回傳 404
+        if( product == null ){
+            return ResponseEntity.status( HttpStatus.NOT_FOUND ).build() ;
+        }
+
+
+        // 修改商品
+        productsService.updateProduct( productId , productRequest ) ;
+
+        // 取得更新後的商品
+        Products updatedProduct = productsService.getProductById( productId ) ;
+
+        // 回傳更新成功訊息( 200 / 更新的商品資訊 )
+        return ResponseEntity.status( HttpStatus.OK ).body( updatedProduct ) ;
+
+
+    }
 
 
 }

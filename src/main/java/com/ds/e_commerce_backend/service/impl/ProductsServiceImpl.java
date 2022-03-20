@@ -29,5 +29,15 @@ public class ProductsServiceImpl implements ProductsService {
 
     }
 
+    // 更新 _ 商品
+    @Override
+    public void updateProduct(Integer productId, ProductRequest productRequest) {
+
+        productsDao.updateProduct( productId , productRequest ) ;
+
+    }
+
+
+    // 刪除 _ 商品
 
 }
