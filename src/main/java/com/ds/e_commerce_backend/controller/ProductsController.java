@@ -17,6 +17,17 @@ public class ProductsController {
     private ProductsService productsService ;
 
 
+    // 測試
+    @GetMapping( "/test" )
+    public String test(){
+
+       return "Hello Heroku" ;
+
+    }
+
+
+
+
     // 取得 _ 商品
     @GetMapping( "/products/{productId}" )
     public ResponseEntity<Products> getProduct(@PathVariable Integer productId){
