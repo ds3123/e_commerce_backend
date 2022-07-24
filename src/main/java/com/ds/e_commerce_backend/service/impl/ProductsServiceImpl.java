@@ -1,10 +1,11 @@
 package com.ds.e_commerce_backend.service.impl;
 import com.ds.e_commerce_backend.dao.ProductsDao;
-import com.ds.e_commerce_backend.dto.ProductRequest;
-import com.ds.e_commerce_backend.model.Products;
+import com.ds.e_commerce_backend.dao.model.Products;
 import com.ds.e_commerce_backend.service.ProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 
 @Component
@@ -13,7 +14,16 @@ public class ProductsServiceImpl implements ProductsService {
     @Autowired
     private ProductsDao productsDao ;
 
-    // 取得 _ 商品
+
+    // 取得 _ 所有商品
+    @Override
+    public List<Products> getProducts() {
+
+        return productsDao.getProducts() ;
+
+    }
+
+    // 取得 _ 特定 ( id ) 商品
     @Override
     public Products getProductById(Integer productId) {
 
@@ -23,17 +33,17 @@ public class ProductsServiceImpl implements ProductsService {
 
     // 新增 _ 商品
     @Override
-    public Integer createProduct(ProductRequest productRequest) {
+    public Integer createProduct(Products products) {
 
-        return productsDao.createProduct( productRequest ) ;
+        return productsDao.createProduct( products ) ;
 
     }
 
     // 更新 _ 商品
     @Override
-    public void updateProduct(Integer productId, ProductRequest productRequest) {
+    public void updateProduct(Integer productId, Products products) {
 
-        productsDao.updateProduct( productId , productRequest ) ;
+        productsDao.updateProduct( productId , products ) ;
 
     }
 

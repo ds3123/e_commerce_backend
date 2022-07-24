@@ -1,8 +1,7 @@
 package com.ds.e_commerce_backend.dao.impl;
 import com.ds.e_commerce_backend.dao.ProductsDao;
-import com.ds.e_commerce_backend.dto.ProductRequest;
-import com.ds.e_commerce_backend.model.Products;
-import com.ds.e_commerce_backend.rowmapper.ProductsRowMapper;
+import com.ds.e_commerce_backend.dao.model.Products;
+import com.ds.e_commerce_backend.dao.rowmapper.ProductsRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -19,13 +18,30 @@ import java.util.Map;
 @Component
 public class ProductsDaoImpl implements ProductsDao {
 
+
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate ;
 
 
-    // 取得 _ 商品
+    // 取得 _ 所有商品
     @Override
-    public Products getProductById(Integer productId) {
+    public List<Products> getProducts() {
+
+        String sql = "SELECT product_id, product_name, category, image_url, price, stock, " +
+                     "description, created_date, last_modified_date FROM products" ;
+
+        Map<String , Object> map = new HashMap<>() ;
+
+        List<Products> productsList = namedParameterJdbcTemplate.query( sql , map , new ProductsRowMapper() ) ;
+
+        return productsList ;
+
+
+    }
+
+    // 取得 _ 特定 ( id ) 商品
+    @Override
+    public Products getProductById( Integer productId ) {
 
         String sql = "SELECT product_id, product_name, category, image_url, price, stock, " +
                      "description, created_date, last_modified_date FROM products " +
@@ -34,7 +50,7 @@ public class ProductsDaoImpl implements ProductsDao {
         Map<String , Object> map = new HashMap<>() ;
         map.put( "productId" , productId ) ;
 
-        List<Products> productsList = namedParameterJdbcTemplate.query( sql , map , new ProductsRowMapper() );
+        List<Products> productsList = namedParameterJdbcTemplate.query( sql , map , new ProductsRowMapper() ) ;
 
         // 填寫判斷，避免 List 為空
         if( productsList.size() > 0 ){
@@ -46,9 +62,10 @@ public class ProductsDaoImpl implements ProductsDao {
 
     }
 
+
     // 新增 _ 商品
     @Override
-    public Integer createProduct(ProductRequest productRequest) {
+    public Integer createProduct( Products products) {
 
         String sql = "INSERT INTO products( product_name , category , image_url , " +
                      "price , stock , description , created_date , last_modified_date ) " +
@@ -56,12 +73,12 @@ public class ProductsDaoImpl implements ProductsDao {
                      " :createdDate , :lastModifiedDate )" ;
 
         Map< String , Object > map = new HashMap<>() ;
-        map.put( "productName" , productRequest.getProductName() ) ;
-        map.put( "category" , productRequest.getCategory().toString() ) ; // 轉為字串
-        map.put( "imageUrl" , productRequest.getImageUrl() ) ;
-        map.put( "price" , productRequest.getPrice() ) ;
-        map.put( "stock" , productRequest.getStock() ) ;
-        map.put( "description" , productRequest.getDescription() ) ;
+        map.put( "productName" , products.getProductName() ) ;
+        map.put( "category" , products.getCategory().toString() ) ; // 須 toString() 轉為字串
+        map.put( "imageUrl" , products.getImageUrl() ) ;
+        map.put( "price" , products.getPrice() ) ;
+        map.put( "stock" , products.getStock() ) ;
+        map.put( "description" , products.getDescription() ) ;
 
         Date now = new Date() ;
         map.put( "createdDate" , now ) ;
@@ -83,7 +100,7 @@ public class ProductsDaoImpl implements ProductsDao {
 
     // 更新 _ 商品
     @Override
-    public void updateProduct( Integer productId , ProductRequest productRequest ) {
+    public void updateProduct( Integer productId , Products products ) {
 
         String sql = "UPDATE products SET product_name = :productName , category = :category , " +
                      "image_url = :imageUrl , price = :price , stock = :stock , " +
@@ -94,12 +111,12 @@ public class ProductsDaoImpl implements ProductsDao {
 
         map.put( "productId" , productId ) ;
 
-        map.put( "productName" , productRequest.getProductName() ) ;
-        map.put( "category" , productRequest.getCategory().toString() ) ;
-        map.put( "imageUrl" , productRequest.getImageUrl() ) ;
-        map.put( "price" , productRequest.getPrice() ) ;
-        map.put( "stock" , productRequest.getStock() ) ;
-        map.put( "description" , productRequest.getDescription() ) ;
+        map.put( "productName" , products.getProductName() ) ;
+        map.put( "category" , products.getCategory().toString() ) ;
+        map.put( "imageUrl" , products.getImageUrl() ) ;
+        map.put( "price" , products.getPrice() ) ;
+        map.put( "stock" , products.getStock() ) ;
+        map.put( "description" , products.getDescription() ) ;
 
         map.put( "lastModifiedDate" , new Date() ) ;  // 最後修改時間
 
@@ -111,7 +128,7 @@ public class ProductsDaoImpl implements ProductsDao {
 
     // 刪除 _ 商品
     @Override
-    public void deleteProductById(Integer productId) {
+    public void deleteProductById( Integer productId ) {
 
         String sql = "DELETE FROM products WHERE product_id = :productId" ;
 
@@ -121,5 +138,6 @@ public class ProductsDaoImpl implements ProductsDao {
         namedParameterJdbcTemplate.update( sql , map );
 
     }
+
 
 }

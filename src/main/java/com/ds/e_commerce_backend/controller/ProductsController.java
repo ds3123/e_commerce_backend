@@ -1,13 +1,13 @@
 package com.ds.e_commerce_backend.controller;
-import com.ds.e_commerce_backend.dto.ProductRequest;
-import com.ds.e_commerce_backend.model.Products;
+import com.ds.e_commerce_backend.dao.model.Products;
 import com.ds.e_commerce_backend.service.ProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import javax.validation.Valid ;
+import java.util.List;
 
 
 @RestController
@@ -18,7 +18,7 @@ public class ProductsController {
 
 
     // 測試
-    @GetMapping( "/test" )
+    @GetMapping("/test" )
     public String test(){
 
        return "Hello Heroku" ;
@@ -26,18 +26,26 @@ public class ProductsController {
     }
 
 
+    // 取得 _ 所有商品
+    @GetMapping( "/products"  )
+    public ResponseEntity<List<Products>> getProducts(){
+
+       List<Products> productsList = productsService.getProducts() ;
+       return ResponseEntity.status( HttpStatus.OK ).body( productsList ) ;
+
+    }
 
 
-    // 取得 _ 商品
+    // 取得 _ 特定 ( id ) 商品
     @GetMapping( "/products/{productId}" )
-    public ResponseEntity<Products> getProduct(@PathVariable Integer productId){
+    public ResponseEntity<Products> getProduct( @PathVariable Integer productId ){
 
          Products product = productsService.getProductById( productId ) ;
 
          if( product != null ){
              return ResponseEntity.status( HttpStatus.OK ).body( product ); // 200
          }else{
-             return ResponseEntity.status( HttpStatus.NOT_FOUND).build();   // 404
+             return ResponseEntity.status( HttpStatus.NOT_FOUND ).build();  // 404
          }
 
     }
@@ -45,9 +53,9 @@ public class ProductsController {
     // 新增 _ 商品
     @PostMapping("/products")
     public ResponseEntity<Products> createProduct( @RequestBody @Valid
-                                                   ProductRequest productRequest ){
+                                                   Products products ){
         // 新增商品後，回傳 _ 新增的商品 id
-        Integer productId = productsService.createProduct( productRequest ) ;
+        Integer productId = productsService.createProduct( products ) ;
 
         // 取得新增的商品
         Products createdProduct  = productsService.getProductById( productId ) ;
@@ -60,7 +68,7 @@ public class ProductsController {
     // 修改 _ 商品
     @PutMapping("/products/{productId}")
     public ResponseEntity<Products> updateProduct( @PathVariable Integer productId ,
-                                                   @RequestBody @Valid ProductRequest productRequest
+                                                   @RequestBody @Valid Products products
                                                  ){
 
         Products product = productsService.getProductById( productId ) ;
@@ -71,7 +79,7 @@ public class ProductsController {
         }
 
         // 修改商品
-        productsService.updateProduct( productId , productRequest ) ;
+        productsService.updateProduct( productId , products ) ;
 
         // 取得更新後的商品
         Products updatedProduct = productsService.getProductById( productId ) ;

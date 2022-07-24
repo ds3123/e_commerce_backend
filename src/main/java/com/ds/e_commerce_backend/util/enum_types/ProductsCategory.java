@@ -1,4 +1,4 @@
-package com.ds.e_commerce_backend.constant;
+package com.ds.e_commerce_backend.util.enum_types;
 
 
 // 列舉 _ 固定值：商品類別
