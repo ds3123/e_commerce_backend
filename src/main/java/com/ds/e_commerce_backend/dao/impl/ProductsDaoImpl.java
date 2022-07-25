@@ -2,6 +2,7 @@ package com.ds.e_commerce_backend.dao.impl;
 import com.ds.e_commerce_backend.dao.ProductsDao;
 import com.ds.e_commerce_backend.dao.model.Products;
 import com.ds.e_commerce_backend.dao.rowmapper.ProductsRowMapper;
+import com.ds.e_commerce_backend.util.dto.ProductQueryParams;
 import com.ds.e_commerce_backend.util.enum_types.ProductsCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -24,7 +25,8 @@ public class ProductsDaoImpl implements ProductsDao {
 
     // 取得 _ 所有 / 特定條件( 可選 ) 商品
     @Override
-    public List<Products> getProducts( ProductsCategory category , String search ) {
+    public List<Products> getProducts( ProductQueryParams productQueryParams ) {
+
 
                       // WHERE 1=1 ( 若 category 為 null， WHERE 1=1 ( 永遠為 true ) 等同沒有設任何查詢條件 )
                       // 此設定是為了以下 _ 拼接查詢條件用
@@ -35,15 +37,17 @@ public class ProductsDaoImpl implements ProductsDao {
         Map<String , Object> map = new HashMap<>() ;
 
         // * 若有查詢條件．可拼接在 WHERE 1=1 之後（ AND 前有空白 ）
+
         // category ( 商品類別 )
-        if( category != null ){
+        if( productQueryParams.getCategory() != null ){
             sql = sql + " AND category = :category" ;
-            map.put( "category" , category.name() ) ;  // category 為 Enum 類型，須使用 name()，轉換為字串
+            map.put( "category" , productQueryParams.getCategory().name() ) ;  // category 為 Enum 類型，須使用 name()，轉換為字串
         }
+
         // search ( 關鍵字 )
-        if( search != null ){
+        if( productQueryParams.getSearch() != null ){
             sql = sql + " AND product_name LIKE :search" ;
-            map.put( "search" , "%" + search + "%" ) ;
+            map.put( "search" , "%" + productQueryParams.getSearch() + "%" ) ;
         }
 
 

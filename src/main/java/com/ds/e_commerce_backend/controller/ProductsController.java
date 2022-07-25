@@ -1,6 +1,7 @@
 package com.ds.e_commerce_backend.controller;
 import com.ds.e_commerce_backend.dao.model.Products;
 import com.ds.e_commerce_backend.service.ProductsService;
+import com.ds.e_commerce_backend.util.dto.ProductQueryParams;
 import com.ds.e_commerce_backend.util.enum_types.ProductsCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ public class ProductsController {
 
     }
 
+
     // 取得 _ 所有 / 特定條件( 可選 required = false ) 商品
     @GetMapping( "/products" )
     public ResponseEntity<List<Products>> getProducts(
@@ -33,7 +35,13 @@ public class ProductsController {
              @RequestParam( required = false ) String search                // 關鍵字
     ){
 
-       List<Products> productsList = productsService.getProducts( category , search ) ;
+       // 將前端傳來的(多個)參數，統一設定於 _ 資料轉換物件( dto ) ProductQueryParams 中，方便傳遞
+       // 不避逐層傳遞多個參數 ; 後續若有變動，修改幅度較小 --> 降低填錯參數機率
+       ProductQueryParams productQueryParams = new ProductQueryParams() ;
+       productQueryParams.setCategory( category );
+       productQueryParams.setSearch( search );
+
+       List<Products> productsList = productsService.getProducts( productQueryParams ) ;
        return ResponseEntity.status( HttpStatus.OK ).body( productsList ) ;
 
     }
