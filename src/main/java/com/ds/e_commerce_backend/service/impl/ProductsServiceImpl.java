@@ -2,6 +2,7 @@ package com.ds.e_commerce_backend.service.impl;
 import com.ds.e_commerce_backend.dao.ProductsDao;
 import com.ds.e_commerce_backend.dao.model.Products;
 import com.ds.e_commerce_backend.service.ProductsService;
+import com.ds.e_commerce_backend.util.enum_types.ProductsCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,11 +16,11 @@ public class ProductsServiceImpl implements ProductsService {
     private ProductsDao productsDao ;
 
 
-    // 取得 _ 所有商品
+    // 取得 _ 所有 / 特定條件( 可選 ) 商品
     @Override
-    public List<Products> getProducts() {
+    public List<Products> getProducts( ProductsCategory category , String search ) {
 
-        return productsDao.getProducts() ;
+        return productsDao.getProducts( category , search ) ;
 
     }
 

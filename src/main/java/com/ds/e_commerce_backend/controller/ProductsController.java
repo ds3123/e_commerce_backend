@@ -1,6 +1,7 @@
 package com.ds.e_commerce_backend.controller;
 import com.ds.e_commerce_backend.dao.model.Products;
 import com.ds.e_commerce_backend.service.ProductsService;
+import com.ds.e_commerce_backend.util.enum_types.ProductsCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,12 +26,14 @@ public class ProductsController {
 
     }
 
+    // 取得 _ 所有 / 特定條件( 可選 required = false ) 商品
+    @GetMapping( "/products" )
+    public ResponseEntity<List<Products>> getProducts(
+             @RequestParam( required = false ) ProductsCategory category ,  // 商品類別( Enum 類型 )
+             @RequestParam( required = false ) String search                // 關鍵字
+    ){
 
-    // 取得 _ 所有商品
-    @GetMapping( "/products"  )
-    public ResponseEntity<List<Products>> getProducts(){
-
-       List<Products> productsList = productsService.getProducts() ;
+       List<Products> productsList = productsService.getProducts( category , search ) ;
        return ResponseEntity.status( HttpStatus.OK ).body( productsList ) ;
 
     }
