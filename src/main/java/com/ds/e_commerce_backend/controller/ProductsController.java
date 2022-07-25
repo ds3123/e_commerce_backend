@@ -31,15 +31,23 @@ public class ProductsController {
     // 取得 _ 所有 / 特定條件( 可選 required = false ) 商品
     @GetMapping( "/products" )
     public ResponseEntity<List<Products>> getProducts(
-             @RequestParam( required = false ) ProductsCategory category ,  // 商品類別( Enum 類型 )
-             @RequestParam( required = false ) String search                // 關鍵字
+
+          // 查詢條件
+          @RequestParam( required = false ) ProductsCategory category ,   // 商品類別( Enum 類型 )
+          @RequestParam( required = false ) String search ,               // 關鍵字
+          // 排序
+          @RequestParam( defaultValue = "created_date" ) String orderBy , // 欄位排序依據
+          @RequestParam( defaultValue = "desc" ) String sort              // 升冪 或 降冪 排序
+
     ){
 
        // 將前端傳來的(多個)參數，統一設定於 _ 資料轉換物件( dto ) ProductQueryParams 中，方便傳遞
        // 不避逐層傳遞多個參數 ; 後續若有變動，修改幅度較小 --> 降低填錯參數機率
        ProductQueryParams productQueryParams = new ProductQueryParams() ;
-       productQueryParams.setCategory( category );
-       productQueryParams.setSearch( search );
+       productQueryParams.setCategory( category ) ;
+       productQueryParams.setSearch( search ) ;
+       productQueryParams.setOrderBy( orderBy );
+       productQueryParams.setSort( sort );
 
        List<Products> productsList = productsService.getProducts( productQueryParams ) ;
        return ResponseEntity.status( HttpStatus.OK ).body( productsList ) ;

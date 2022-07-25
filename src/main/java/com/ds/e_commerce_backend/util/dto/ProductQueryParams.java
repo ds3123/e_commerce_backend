@@ -18,6 +18,9 @@ public class ProductQueryParams {
     private ProductsCategory category ;  // 商品類別( Enum 類型 )
     private String search ;              // 關鍵字
 
+    private String orderBy ;             // 欄位排序依據
+    private String sort ;                // 升冪 或 降冪 排序
+
 
 
     // Getter & Setter
@@ -35,6 +38,23 @@ public class ProductQueryParams {
 
     public void setSearch(String search) {
         this.search = search;
+    }
+
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
     }
 
 

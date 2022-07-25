@@ -50,6 +50,11 @@ public class ProductsDaoImpl implements ProductsDao {
             map.put( "search" , "%" + productQueryParams.getSearch() + "%" ) ;
         }
 
+        // 串接排序查詢 ( NOTE: JDBC Template sal 語句在 ORDER 排序上，只能以下列字串拼接方式，無法用動態變數( 如 :search ) 填寫參數  )
+        // 因有設定預設值，所以不用經過 null 判斷
+        sql = sql + " ORDER BY " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort() ;
+
+
 
         List<Products> productsList = namedParameterJdbcTemplate.query( sql , map , new ProductsRowMapper() ) ;
 
