@@ -27,7 +27,6 @@ public class ProductsDaoImpl implements ProductsDao {
     @Override
     public List<Products> getProducts( ProductQueryParams productQueryParams ) {
 
-
                       // WHERE 1=1 ( 若 category 為 null， WHERE 1=1 ( 永遠為 true ) 等同沒有設任何查詢條件 )
                       // 此設定是為了以下 _ 拼接查詢條件用
                       // 僅在 Spring JDBC Template 需要， Spring Data JPA 會自動處理動態多條件查詢
@@ -38,22 +37,30 @@ public class ProductsDaoImpl implements ProductsDao {
 
         // * 若有查詢條件．可拼接在 WHERE 1=1 之後（ AND 前有空白 ）
 
-        // category ( 商品類別 )
-        if( productQueryParams.getCategory() != null ){
-            sql = sql + " AND category = :category" ;
-            map.put( "category" , productQueryParams.getCategory().name() ) ;  // category 為 Enum 類型，須使用 name()，轉換為字串
-        }
+        // 串接查詢條件 < START >  -------------------
 
-        // search ( 關鍵字 )
-        if( productQueryParams.getSearch() != null ){
-            sql = sql + " AND product_name LIKE :search" ;
-            map.put( "search" , "%" + productQueryParams.getSearch() + "%" ) ;
-        }
+            // # 查詢條件 ( Filtering )
+            if( productQueryParams.getCategory() != null ){   // category ( 商品類別 )
+                sql = sql + " AND category = :category" ;
+                map.put( "category" , productQueryParams.getCategory().name() ) ;  // category 為 Enum 類型，須使用 name()，轉換為字串
+            }
 
-        // 串接排序查詢 ( NOTE: JDBC Template sal 語句在 ORDER 排序上，只能以下列字串拼接方式，無法用動態變數( 如 :search ) 填寫參數  )
-        // 因有設定預設值，所以不用經過 null 判斷
-        sql = sql + " ORDER BY " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort() ;
+            if( productQueryParams.getSearch() != null ){     // search ( 關鍵字 )
+                sql = sql + " AND product_name LIKE :search" ;
+                map.put( "search" , "%" + productQueryParams.getSearch() + "%" ) ;
+            }
 
+            // * 以下因有設定 _ 預設值，所以不用經過 null 判斷 --------
+
+            // # 排序 ( Sorting )   NOTE: JDBC Template sal 語句在 ORDER 排序上，只能以下列字串拼接方式，無法用動態變數( 如 :search ) 填寫參數
+            sql = sql + " ORDER BY " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort() ;
+
+            // # 分頁 ( Pagination ) ~ 效能：避免一次取得所有資料
+            sql = sql + " LIMIT :limit OFFSET :offset" ;
+            map.put( "limit" , productQueryParams.getLimit() ) ;
+            map.put( "offset" , productQueryParams.getOffset() ) ;
+
+        // 串接查詢條件 < END > -------------------
 
 
         List<Products> productsList = namedParameterJdbcTemplate.query( sql , map , new ProductsRowMapper() ) ;

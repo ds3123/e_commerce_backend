@@ -6,12 +6,16 @@ import com.ds.e_commerce_backend.util.enum_types.ProductsCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid ;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 
+@Validated
 @RestController
 public class ProductsController {
 
@@ -28,16 +32,22 @@ public class ProductsController {
     }
 
 
-    // 取得 _ 所有 / 特定條件( 可選 required = false ) 商品
+    // 取得 _ 所有 / 特定條件( 可選 : required = false 或 defaultValue = "..." ) 商品
     @GetMapping( "/products" )
+    @CrossOrigin( origins = "http://localhost:3000" )
     public ResponseEntity<List<Products>> getProducts(
 
-          // 查詢條件
-          @RequestParam( required = false ) ProductsCategory category ,   // 商品類別( Enum 類型 )
-          @RequestParam( required = false ) String search ,               // 關鍵字
-          // 排序
-          @RequestParam( defaultValue = "created_date" ) String orderBy , // 欄位排序依據
-          @RequestParam( defaultValue = "desc" ) String sort              // 升冪 或 降冪 排序
+            // 查詢條件 ( Filtering )
+            @RequestParam( required = false ) ProductsCategory category ,              // 商品類別( Enum 類型 )
+            @RequestParam( required = false ) String search ,                          // 關鍵字
+
+            // 排序 ( Sorting )
+            @RequestParam( defaultValue = "created_date" ) String orderBy ,            // 欄位排序依據
+            @RequestParam( defaultValue = "desc" ) String sort ,                       // 升冪 或 降冪 排序
+
+            // 分頁 ( Pagination ) ~ 效能：避免一次取得所有資料
+            @RequestParam( defaultValue = "5" ) @Max( 1000 ) @Min( 0 ) Integer limit , // 每次取得資料數
+            @RequestParam( defaultValue = "0" ) @Min( 0 ) Integer offset               // 每隔多少筆
 
     ){
 
@@ -48,6 +58,8 @@ public class ProductsController {
        productQueryParams.setSearch( search ) ;
        productQueryParams.setOrderBy( orderBy );
        productQueryParams.setSort( sort );
+       productQueryParams.setLimit( limit );
+       productQueryParams.setOffset( offset );
 
        List<Products> productsList = productsService.getProducts( productQueryParams ) ;
        return ResponseEntity.status( HttpStatus.OK ).body( productsList ) ;
