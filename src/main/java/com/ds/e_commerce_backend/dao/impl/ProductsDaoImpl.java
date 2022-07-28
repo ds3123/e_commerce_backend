@@ -23,6 +23,38 @@ public class ProductsDaoImpl implements ProductsDao {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate ;
 
+
+    // 計算 _ 資料總筆數
+    @Override
+    public Integer countProducts( ProductQueryParams productQueryParams ) {
+
+        String sql = "SELECT count(*) FROM products WHERE 1 = 1" ;
+
+        Map<String , Object> map = new HashMap<>() ;
+
+
+        // 串接查詢條件 < START >  -------------------
+
+            // # 查詢條件 ( Filtering )
+            if( productQueryParams.getCategory() != null ){   // category ( 商品類別 )
+                sql = sql + " AND category = :category" ;
+                map.put( "category" , productQueryParams.getCategory().name() ) ;  // category 為 Enum 類型，須使用 name()，轉換為字串
+            }
+
+            if( productQueryParams.getSearch() != null ){     // search ( 關鍵字 )
+                sql = sql + " AND product_name LIKE :search" ;
+                map.put( "search" , "%" + productQueryParams.getSearch() + "%" ) ;
+            }
+
+       // 串接查詢條件 < END >  -------------------
+
+        // 取得 _ 查詢結果資料總數 / queryForObject() -> 將 sql count() 的結果，轉為 Integer 類型
+        Integer total = namedParameterJdbcTemplate.queryForObject(  sql , map , Integer.class ) ;
+
+        return total ;
+
+    }
+
     // 取得 _ 所有 / 特定條件( 可選 ) 商品
     @Override
     public List<Products> getProducts( ProductQueryParams productQueryParams ) {

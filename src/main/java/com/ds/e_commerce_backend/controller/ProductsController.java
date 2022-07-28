@@ -1,6 +1,7 @@
 package com.ds.e_commerce_backend.controller;
 import com.ds.e_commerce_backend.dao.model.Products;
 import com.ds.e_commerce_backend.service.ProductsService;
+import com.ds.e_commerce_backend.util.Pagination;
 import com.ds.e_commerce_backend.util.dto.ProductQueryParams;
 import com.ds.e_commerce_backend.util.enum_types.ProductsCategory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,7 @@ public class ProductsController {
 
     // 取得 _ 所有 / 特定條件( 可選 : required = false 或 defaultValue = "..." ) 商品
     @GetMapping( "/products" )
-    @CrossOrigin( origins = "http://localhost:3000" )
-    public ResponseEntity<List<Products>> getProducts(
+    public ResponseEntity<Pagination<Products>> getProducts(
 
             // 查詢條件 ( Filtering )
             @RequestParam( required = false ) ProductsCategory category ,              // 商品類別( Enum 類型 )
@@ -51,18 +51,32 @@ public class ProductsController {
 
     ){
 
+
        // 將前端傳來的(多個)參數，統一設定於 _ 資料轉換物件( dto ) ProductQueryParams 中，方便傳遞
        // 不避逐層傳遞多個參數 ; 後續若有變動，修改幅度較小 --> 降低填錯參數機率
        ProductQueryParams productQueryParams = new ProductQueryParams() ;
        productQueryParams.setCategory( category ) ;
        productQueryParams.setSearch( search ) ;
-       productQueryParams.setOrderBy( orderBy );
-       productQueryParams.setSort( sort );
-       productQueryParams.setLimit( limit );
-       productQueryParams.setOffset( offset );
+       productQueryParams.setOrderBy( orderBy ) ;
+       productQueryParams.setSort( sort ) ;
+       productQueryParams.setLimit( limit ) ;
+       productQueryParams.setOffset( offset ) ;
 
+       // 取得 _ 資料內容
        List<Products> productsList = productsService.getProducts( productQueryParams ) ;
-       return ResponseEntity.status( HttpStatus.OK ).body( productsList ) ;
+
+       // 取得 _ 資料總筆數
+       Integer total = productsService.countProducts( productQueryParams ) ;
+
+
+       // 分頁資訊
+       Pagination<Products> pagination = new Pagination<>() ;
+       pagination.setLimit( limit ) ;
+       pagination.setOffset( offset ) ;
+       pagination.setTotal( total ) ;
+       pagination.setResults( productsList ) ;
+
+       return ResponseEntity.status( HttpStatus.OK ).body( pagination ) ;
 
     }
 

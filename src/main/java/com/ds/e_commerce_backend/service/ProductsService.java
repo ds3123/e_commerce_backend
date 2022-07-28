@@ -8,11 +8,16 @@ import java.util.List;
 
 public interface ProductsService {
 
+    // 計算 _ 資料總筆數
+    Integer countProducts( ProductQueryParams productQueryParams ) ;
+
+
     // 取得 _ 所有 / 特定條件( 可選 ) 商品
     List<Products>  getProducts( ProductQueryParams productQueryParams );
 
     // 取得 _ 特定 ( id ) 商品
     Products getProductById( Integer productId ) ;
+
 
     // 新增 _ 商品
     Integer createProduct( Products products ) ;

@@ -16,6 +16,14 @@ public class ProductsServiceImpl implements ProductsService {
     private ProductsDao productsDao ;
 
 
+    // 計算 _ 資料總筆數
+    @Override
+    public Integer countProducts(ProductQueryParams productQueryParams) {
+
+        return productsDao.countProducts( productQueryParams ) ;
+
+    }
+
     // 取得 _ 所有 / 特定條件( 可選 ) 商品
     @Override
     public List<Products> getProducts( ProductQueryParams productQueryParams ) {
