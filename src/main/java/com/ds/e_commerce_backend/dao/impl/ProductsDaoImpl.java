@@ -24,6 +24,30 @@ public class ProductsDaoImpl implements ProductsDao {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate ;
 
 
+    // # 共用函式 ------------------------
+
+    // 串接 _ 篩選 SQL 語句
+    private String joinFilterSql( String sql , Map< String , Object > map , ProductQueryParams productQueryParams ){
+
+        if( productQueryParams.getCategory() != null ){   // category ( 商品類別 )
+
+            sql = sql + " AND category = :category" ;
+            map.put( "category" , productQueryParams.getCategory().name() ) ;  // category 為 Enum 類型，須使用 name()，轉換為字串
+
+        }
+
+        if( productQueryParams.getSearch() != null ){     // search ( 關鍵字 )
+
+            sql = sql + " AND product_name LIKE :search" ;
+            map.put( "search" , "%" + productQueryParams.getSearch() + "%" ) ;
+
+        }
+
+        return sql ;
+
+    }
+
+
     // 計算 _ 資料總筆數
     @Override
     public Integer countProducts( ProductQueryParams productQueryParams ) {
@@ -32,21 +56,8 @@ public class ProductsDaoImpl implements ProductsDao {
 
         Map<String , Object> map = new HashMap<>() ;
 
-
-        // 串接查詢條件 < START >  -------------------
-
-            // # 查詢條件 ( Filtering )
-            if( productQueryParams.getCategory() != null ){   // category ( 商品類別 )
-                sql = sql + " AND category = :category" ;
-                map.put( "category" , productQueryParams.getCategory().name() ) ;  // category 為 Enum 類型，須使用 name()，轉換為字串
-            }
-
-            if( productQueryParams.getSearch() != null ){     // search ( 關鍵字 )
-                sql = sql + " AND product_name LIKE :search" ;
-                map.put( "search" , "%" + productQueryParams.getSearch() + "%" ) ;
-            }
-
-       // 串接查詢條件 < END >  -------------------
+        // 串接查詢條件
+        sql = joinFilterSql( sql , map , productQueryParams ) ;
 
         // 取得 _ 查詢結果資料總數 / queryForObject() -> 將 sql count() 的結果，轉為 Integer 類型
         Integer total = namedParameterJdbcTemplate.queryForObject(  sql , map , Integer.class ) ;
@@ -71,23 +82,14 @@ public class ProductsDaoImpl implements ProductsDao {
 
         // 串接查詢條件 < START >  -------------------
 
-            // # 查詢條件 ( Filtering )
-            if( productQueryParams.getCategory() != null ){   // category ( 商品類別 )
-                sql = sql + " AND category = :category" ;
-                map.put( "category" , productQueryParams.getCategory().name() ) ;  // category 為 Enum 類型，須使用 name()，轉換為字串
-            }
+            // * 查詢條件 ( Filtering )
+            sql = joinFilterSql( sql , map , productQueryParams ) ;
 
-            if( productQueryParams.getSearch() != null ){     // search ( 關鍵字 )
-                sql = sql + " AND product_name LIKE :search" ;
-                map.put( "search" , "%" + productQueryParams.getSearch() + "%" ) ;
-            }
-
-            // * 以下因有設定 _ 預設值，所以不用經過 null 判斷 --------
-
-            // # 排序 ( Sorting )   NOTE: JDBC Template sal 語句在 ORDER 排序上，只能以下列字串拼接方式，無法用動態變數( 如 :search ) 填寫參數
+            // # 以下因有設定 _ 預設值，所以不用經過 null 判斷 --------
+            // * 排序 ( Sorting )   NOTE: JDBC Template sal 語句在 ORDER 排序上，只能以下列字串拼接方式，無法用動態變數( 如 :search ) 填寫參數
             sql = sql + " ORDER BY " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort() ;
 
-            // # 分頁 ( Pagination ) ~ 效能：避免一次取得所有資料
+            // * 分頁 ( Pagination ) ~ 效能：避免一次取得所有資料
             sql = sql + " LIMIT :limit OFFSET :offset" ;
             map.put( "limit" , productQueryParams.getLimit() ) ;
             map.put( "offset" , productQueryParams.getOffset() ) ;

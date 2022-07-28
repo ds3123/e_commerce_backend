@@ -5,9 +5,9 @@ import com.ds.e_commerce_backend.util.enum_types.ProductsCategory;
 
 /*
 
- @ 轉換
+ @ 資料轉換
 
-   一次收集多個查詢請求參數
+   統一收集、處理 _ 多個查詢請求參數
 
 
 */

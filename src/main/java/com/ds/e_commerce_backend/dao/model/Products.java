@@ -1,7 +1,6 @@
 package com.ds.e_commerce_backend.dao.model;
 import com.ds.e_commerce_backend.util.enum_types.ProductsCategory;
 import java.util.Date;
-
 import javax.validation.constraints.NotNull;
 
 
@@ -12,7 +11,6 @@ import javax.validation.constraints.NotNull;
      2. 處理前端傳來的 JSON 資料 ( Products 商品 )--> 驗證前端參數 : ＠NotNull
 
  */
-
 
 
 public class Products {
