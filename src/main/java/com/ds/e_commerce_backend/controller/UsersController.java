@@ -2,6 +2,7 @@ package com.ds.e_commerce_backend.controller;
 
 import com.ds.e_commerce_backend.dao.model.Users;
 import com.ds.e_commerce_backend.service.UsersService;
+import com.ds.e_commerce_backend.util.dto.UsersRegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,17 +22,16 @@ public class UsersController {
 
     // 新增 _ 帳號
     @PostMapping("/users/register")
-    public ResponseEntity<Users> register( @RequestBody @Valid Users users ){
+    public ResponseEntity<Users> register(@RequestBody @Valid UsersRegisterRequest usersRegisterRequest){
 
        // 新增帳號後，回傳 _ 新增的帳號 id
-       Integer userId = usersService.register( users ) ;
+       Integer userId = usersService.register( usersRegisterRequest ) ;
 
        // 取得新增的帳號
        Users registerUser = usersService.getUserById( userId ) ;
 
        // 回傳新增成功訊息( 201 / 新增的帳號資訊 )
        return ResponseEntity.status( HttpStatus.CREATED ).body( registerUser ) ;
-
 
     }
 

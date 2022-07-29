@@ -4,6 +4,7 @@ package com.ds.e_commerce_backend.dao.impl;
 import com.ds.e_commerce_backend.dao.UsersDao;
 import com.ds.e_commerce_backend.dao.model.Users;
 import com.ds.e_commerce_backend.dao.rowmapper.UsersRowMapper;
+import com.ds.e_commerce_backend.util.dto.UsersRegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -43,17 +44,39 @@ public class UsersDaoImpl implements UsersDao {
 
     }
 
+
+    // 取得 _ 特定 ( email ) 帳號
+    @Override
+    public Users getUserByEmail( String email ) {
+
+        String sql = "SELECT user_id , email , password , created_date , last_modified_date " +
+                     "FROM users WHERE email = :email" ;
+
+        Map< String , Object > map = new HashMap<>() ;
+        map.put( "email" , email ) ;
+
+        List< Users > usersList = namedParameterJdbcTemplate.query( sql , map , new UsersRowMapper() ) ;
+
+        if( usersList.size() > 0  ){
+            return usersList.get( 0 ) ;
+        }else{
+            return null ;
+        }
+
+
+    }
+
     // 新增 _ 帳號
     @Override
-    public Integer createUser( Users users ) {
+    public Integer createUser( UsersRegisterRequest usersRegisterRequest ) {
 
         String sql = "INSERT INTO users( email , password , created_date , last_modified_date ) " +
                      "VALUES ( :email , :password , :created_date , :last_modified_date )" ;
 
         // 前端傳來的值與時間( Date )，放入 Map map
         Map< String , Object > map = new HashMap<>() ;
-        map.put( "email" , users.getEmail() ) ;
-        map.put( "password" , users.getPassword() ) ;
+        map.put( "email" , usersRegisterRequest.getEmail() ) ;
+        map.put( "password" , usersRegisterRequest.getPassword() ) ;
         Date now = new Date() ;
         map.put( "created_date" , now ) ;
         map.put( "last_modified_date" , now ) ;

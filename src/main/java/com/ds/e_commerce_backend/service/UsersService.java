@@ -2,6 +2,7 @@ package com.ds.e_commerce_backend.service;
 
 
 import com.ds.e_commerce_backend.dao.model.Users;
+import com.ds.e_commerce_backend.util.dto.UsersRegisterRequest;
 
 public interface UsersService {
 
@@ -9,7 +10,7 @@ public interface UsersService {
    Users getUserById( Integer userId ) ;
 
    // 新增 _ 帳號
-   Integer register( Users users ) ;
+   Integer register( UsersRegisterRequest usersRegisterRequest ) ;
 
 
 }
