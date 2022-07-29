@@ -1,9 +1,11 @@
 package com.ds.e_commerce_backend.util.dto;
 
+
+
 /*
 
    作用 :
-       接住前端 ( for 請求 : 註冊 _ 帳號 ) 傳來的參數，並進行驗證 : @NotBlank , @Email
+       接住前端 ( for 請求：登入帳號 ) 傳來的參數，並進行驗證 : @NotBlank , @Email
 
 */
 
@@ -11,7 +13,7 @@ package com.ds.e_commerce_backend.util.dto;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-public class UsersRegisterRequest {
+public class UsersLoginRequest {
 
     @NotBlank
     @Email
@@ -38,4 +40,6 @@ public class UsersRegisterRequest {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 }

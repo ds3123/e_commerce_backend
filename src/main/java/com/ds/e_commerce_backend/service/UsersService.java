@@ -2,6 +2,7 @@ package com.ds.e_commerce_backend.service;
 
 
 import com.ds.e_commerce_backend.dao.model.Users;
+import com.ds.e_commerce_backend.util.dto.UsersLoginRequest;
 import com.ds.e_commerce_backend.util.dto.UsersRegisterRequest;
 
 public interface UsersService {
@@ -11,6 +12,9 @@ public interface UsersService {
 
    // 新增 _ 帳號
    Integer register( UsersRegisterRequest usersRegisterRequest ) ;
+
+   // 登入 _ 帳號
+   Users login(UsersLoginRequest usersLoginRequest ) ;
 
 
 }
