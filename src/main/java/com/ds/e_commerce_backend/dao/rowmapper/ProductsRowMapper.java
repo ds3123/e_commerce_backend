@@ -11,7 +11,7 @@ import java.sql.SQLException;
     將所查詢的 "資料庫欄位數據"，轉換成 "Java 類別物件" ( for Products 類別 )
  */
 
-public class ProductsRowMapper implements RowMapper<Products> {
+public class ProductsRowMapper implements RowMapper< Products > {
 
     @Override
     public Products mapRow( ResultSet resultSet , int i ) throws SQLException {

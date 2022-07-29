@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
     @ 作用 :
      1. 對應 `products` 資料表
-     2. 處理前端傳來的 JSON 資料 ( Products 商品 )--> 驗證前端參數 : ＠NotNull
+     2. 處理前端傳來的 JSON 資料 ( Products 商品 ) --> 驗證前端參數 : ＠NotNull
 
  */
 
@@ -40,7 +40,9 @@ public class Products {
     private Date lastModifiedDate ;
 
 
+
     // Getter & Setter
+
     public Integer getProductId() {
         return productId;
     }
