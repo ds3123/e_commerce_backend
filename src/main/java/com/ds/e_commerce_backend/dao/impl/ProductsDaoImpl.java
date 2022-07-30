@@ -190,6 +190,22 @@ public class ProductsDaoImpl implements ProductsDao {
     }
 
 
+    // 扣除 _ 商品庫存
+    @Override
+    public void updateStock( Integer productId , Integer productStock ) {
+
+        String sql = "UPDATE products SET stock = :stock , last_modified_date = :lastModifiedDate " +
+                     "WHERE product_id = :productId" ;
+
+        Map< String , Object > map = new HashMap<>() ;
+        map.put( "productId" , productId  ) ;
+        map.put( "stock" , productStock  ) ;
+        map.put( "lastModifiedDate" , new Date() ) ;
+
+        namedParameterJdbcTemplate.update( sql , map ) ;
+
+    }
+
     // 刪除 _ 商品
     @Override
     public void deleteProductById( Integer productId ) {
