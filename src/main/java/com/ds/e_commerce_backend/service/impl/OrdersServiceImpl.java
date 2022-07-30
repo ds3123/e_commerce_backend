@@ -11,6 +11,7 @@ import com.ds.e_commerce_backend.dao.model.Users;
 import com.ds.e_commerce_backend.service.OrdersService;
 import com.ds.e_commerce_backend.util.dto.orders.BuyItemRequest;
 import com.ds.e_commerce_backend.util.dto.orders.CreateOrderRequest;
+import com.ds.e_commerce_backend.util.dto.orders.OrderQueryParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,8 @@ public class OrdersServiceImpl implements OrdersService {
     private final static Logger log = LoggerFactory.getLogger( OrdersServiceImpl.class ) ;
 
 
+    // --------------
+
 
     // 取得 _ 特定 ( id ) 訂單
     @Transactional
@@ -55,6 +58,32 @@ public class OrdersServiceImpl implements OrdersService {
 
     }
 
+
+    // 取得 _ 訂單列表
+    @Override
+    public List<Orders> getOrders( OrderQueryParams orderQueryParams ) {
+
+        List< Orders > ordersList = ordersDao.getOrders( orderQueryParams ) ;
+
+        for( Orders order : ordersList ){
+
+            List< OrderItems > orderItemsList = ordersDao.getOrderItemsByOrderId( order.getOrderId() ) ;
+            order.setOrderItemsList( orderItemsList ) ;
+
+        }
+
+        return ordersList ;
+
+    }
+
+
+    // 取得 _ 訂單商品項目總數
+    @Override
+    public Integer countOrder( OrderQueryParams orderQueryParams ) {
+
+        return ordersDao.countOrder( orderQueryParams ) ;
+
+    }
 
     // 新增 _ 訂單
     @Transactional

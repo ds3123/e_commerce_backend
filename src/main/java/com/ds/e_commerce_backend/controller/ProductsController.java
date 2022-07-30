@@ -35,7 +35,7 @@ public class ProductsController {
 
     // 取得 _ 所有 / 特定條件( 可選 : required = false 或 defaultValue = "..." ) 商品
     @GetMapping( "/products" )
-    public ResponseEntity<Pagination<Products>> getProducts(
+    public ResponseEntity< Pagination<Products> > getProducts(
 
             // 查詢條件 ( Filtering )
             @RequestParam( required = false ) ProductsCategory category ,              // 商品類別( Enum 類型 )
