@@ -3,8 +3,8 @@ package com.ds.e_commerce_backend.service.impl;
 import com.ds.e_commerce_backend.dao.UsersDao;
 import com.ds.e_commerce_backend.dao.model.Users;
 import com.ds.e_commerce_backend.service.UsersService;
-import com.ds.e_commerce_backend.util.dto.UsersLoginRequest;
-import com.ds.e_commerce_backend.util.dto.UsersRegisterRequest;
+import com.ds.e_commerce_backend.util.dto.users.UsersLoginRequest;
+import com.ds.e_commerce_backend.util.dto.users.UsersRegisterRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.nio.charset.StandardCharsets;
 
 
 @Component
@@ -92,6 +90,8 @@ public class UsersServiceImpl implements UsersService {
 
 
     }
+
+
 
 
 

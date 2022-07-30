@@ -1,7 +1,6 @@
 package com.ds.e_commerce_backend.dao;
 import com.ds.e_commerce_backend.dao.model.Products;
-import com.ds.e_commerce_backend.util.dto.ProductQueryParams;
-import com.ds.e_commerce_backend.util.enum_types.ProductsCategory;
+import com.ds.e_commerce_backend.util.dto.products.ProductQueryParams;
 
 import java.util.List;
 

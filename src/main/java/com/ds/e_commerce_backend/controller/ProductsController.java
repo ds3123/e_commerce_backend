@@ -2,7 +2,7 @@ package com.ds.e_commerce_backend.controller;
 import com.ds.e_commerce_backend.dao.model.Products;
 import com.ds.e_commerce_backend.service.ProductsService;
 import com.ds.e_commerce_backend.util.Pagination;
-import com.ds.e_commerce_backend.util.dto.ProductQueryParams;
+import com.ds.e_commerce_backend.util.dto.products.ProductQueryParams;
 import com.ds.e_commerce_backend.util.enum_types.ProductsCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

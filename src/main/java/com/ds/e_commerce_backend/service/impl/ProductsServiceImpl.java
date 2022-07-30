@@ -2,7 +2,7 @@ package com.ds.e_commerce_backend.service.impl;
 import com.ds.e_commerce_backend.dao.ProductsDao;
 import com.ds.e_commerce_backend.dao.model.Products;
 import com.ds.e_commerce_backend.service.ProductsService;
-import com.ds.e_commerce_backend.util.dto.ProductQueryParams;
+import com.ds.e_commerce_backend.util.dto.products.ProductQueryParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

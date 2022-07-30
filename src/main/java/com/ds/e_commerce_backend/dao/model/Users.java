@@ -3,8 +3,8 @@ package com.ds.e_commerce_backend.dao.model;
 /*
 
     @ 作用 :
-     1. 對應 `users` 資料表
-     2. 處理前端傳來的 JSON 資料 ( Users 使用者帳號 ) --> 驗證前端參數 : ＠NotBlank , @Email , @JasonIgnore
+     1. 對應 : 帳號 / 使用者 [ users ] 資料表
+     2. 處理前端傳來的 JSON 資料 --> 驗證前端參數 : ＠NotBlank , @Email , @JasonIgnore
 
  */
 

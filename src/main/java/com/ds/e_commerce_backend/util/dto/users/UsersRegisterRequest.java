@@ -1,9 +1,8 @@
-package com.ds.e_commerce_backend.util.dto;
+package com.ds.e_commerce_backend.util.dto.users;
 
 /*
 
-   作用 :
-       接住前端 ( for 請求 : 註冊 _ 帳號 ) 傳來的參數，並進行驗證 : @NotBlank , @Email
+   @ 接住前端 ( for 請求 : 註冊 _ 帳號 ) 傳來的參數，並進行驗證 : @NotBlank , @Email
 
 */
 

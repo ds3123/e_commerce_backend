@@ -4,7 +4,7 @@ package com.ds.e_commerce_backend.dao.impl;
 import com.ds.e_commerce_backend.dao.UsersDao;
 import com.ds.e_commerce_backend.dao.model.Users;
 import com.ds.e_commerce_backend.dao.rowmapper.UsersRowMapper;
-import com.ds.e_commerce_backend.util.dto.UsersRegisterRequest;
+import com.ds.e_commerce_backend.util.dto.users.UsersRegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

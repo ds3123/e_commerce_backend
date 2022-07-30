@@ -2,8 +2,8 @@ package com.ds.e_commerce_backend.controller;
 
 import com.ds.e_commerce_backend.dao.model.Users;
 import com.ds.e_commerce_backend.service.UsersService;
-import com.ds.e_commerce_backend.util.dto.UsersLoginRequest;
-import com.ds.e_commerce_backend.util.dto.UsersRegisterRequest;
+import com.ds.e_commerce_backend.util.dto.users.UsersLoginRequest;
+import com.ds.e_commerce_backend.util.dto.users.UsersRegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -2,7 +2,7 @@ package com.ds.e_commerce_backend.dao;
 
 
 import com.ds.e_commerce_backend.dao.model.Users;
-import com.ds.e_commerce_backend.util.dto.UsersRegisterRequest;
+import com.ds.e_commerce_backend.util.dto.users.UsersRegisterRequest;
 
 public interface UsersDao {
 
