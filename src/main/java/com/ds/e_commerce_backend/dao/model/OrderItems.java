@@ -18,6 +18,11 @@ public class OrderItems {
     private Integer quantity ;    // 訂單項目 : 數量
     private Integer amount ;      // 訂單項目 : 金額總計
 
+    // 以下變數為因應需要 ( OrderItemsRowMapper ) , 後續追加 ( Products 類別也有 )
+    private String productName ;  // 訂單項目 : 商品名稱
+    private String imageUrl ;     // 訂單項目 : 商品圖片 URL
+
+
 
     // Getter & Setter
     public Integer getOrderItemId() {
@@ -61,4 +66,19 @@ public class OrderItems {
     }
 
 
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

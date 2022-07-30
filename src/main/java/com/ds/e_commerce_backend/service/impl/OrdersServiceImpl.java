@@ -4,6 +4,7 @@ package com.ds.e_commerce_backend.service.impl;
 import com.ds.e_commerce_backend.dao.OrdersDao;
 import com.ds.e_commerce_backend.dao.ProductsDao;
 import com.ds.e_commerce_backend.dao.model.OrderItems;
+import com.ds.e_commerce_backend.dao.model.Orders;
 import com.ds.e_commerce_backend.dao.model.Products;
 import com.ds.e_commerce_backend.service.OrdersService;
 import com.ds.e_commerce_backend.util.dto.orders.BuyItemRequest;
@@ -23,6 +24,23 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Autowired
     private ProductsDao productsDao ;
+
+
+    // 取得 _ 特定 ( id ) 訂單
+    @Transactional
+    @Override
+    public Orders getOrderById( Integer orderId ) {
+
+        // 取得 _ 特定 id 訂單
+        Orders order = ordersDao.getOrderById( orderId ) ;
+
+        // 取得 _ 特定 id 訂單，所包含商品項目
+        List< OrderItems > orderItemsList = ordersDao.getOrderItemsByOrderId( orderId ) ;
+        order.setOrderItemsList( orderItemsList ) ;
+
+        return order ;
+
+    }
 
 
     // 新增 _ 訂單

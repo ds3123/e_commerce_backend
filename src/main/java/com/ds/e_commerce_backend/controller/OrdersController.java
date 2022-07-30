@@ -1,5 +1,6 @@
 package com.ds.e_commerce_backend.controller;
 
+import com.ds.e_commerce_backend.dao.model.Orders;
 import com.ds.e_commerce_backend.service.OrdersService;
 import com.ds.e_commerce_backend.util.dto.orders.CreateOrderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,6 @@ public class OrdersController {
     private OrdersService ordersService ;
 
 
-
     // 新增 _ 訂單
     @PostMapping( "/users/{userId}/orders" )
     public ResponseEntity<?> createOrder(
@@ -32,11 +32,14 @@ public class OrdersController {
         // 新增訂單 id
         Integer orderId = ordersService.createOrder( userId , createOrderRequest ) ;
 
+        // 取得該筆訂單資訊
+        Orders order = ordersService.getOrderById( orderId ) ;
 
-        return ResponseEntity.status( HttpStatus.CREATED ).body( orderId ) ;
+
+        return ResponseEntity.status( HttpStatus.CREATED ).body( order ) ;
+
 
     }
-
 
 
 }

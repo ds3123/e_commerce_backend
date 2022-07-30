@@ -5,21 +5,21 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UsersRowMapper implements RowMapper<Users> {
 
+public class UsersRowMapper implements RowMapper< Users > {
 
     @Override
     public Users mapRow( ResultSet resultSet , int i ) throws SQLException {
 
-        Users users = new Users() ;
+        Users user = new Users() ;
 
-        users.setUserId( resultSet.getInt( "user_id" ) ) ;
-        users.setEmail( resultSet.getString( "email" ) ) ;
-        users.setPassword( resultSet.getString( "password" ) ) ;
-        users.setCreatedDate( resultSet.getTimestamp( "created_date" ) ) ;
-        users.setLastModifiedDate( resultSet.getTimestamp( "last_modified_date" ) ) ;
+        user.setUserId( resultSet.getInt( "user_id" ) ) ;
+        user.setEmail( resultSet.getString( "email" ) ) ;
+        user.setPassword( resultSet.getString( "password" ) ) ;
+        user.setCreatedDate( resultSet.getTimestamp( "created_date" ) ) ;
+        user.setLastModifiedDate( resultSet.getTimestamp( "last_modified_date" ) ) ;
 
-        return users ;
+        return user ;
 
     }
 

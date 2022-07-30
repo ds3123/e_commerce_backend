@@ -2,6 +2,9 @@ package com.ds.e_commerce_backend.dao.impl;
 
 import com.ds.e_commerce_backend.dao.OrdersDao;
 import com.ds.e_commerce_backend.dao.model.OrderItems;
+import com.ds.e_commerce_backend.dao.model.Orders;
+import com.ds.e_commerce_backend.dao.rowmapper.OrderItemsRowMapper;
+import com.ds.e_commerce_backend.dao.rowmapper.OrdersRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -20,6 +23,46 @@ public class OrdersDaoImpl implements OrdersDao {
 
      @Autowired
      private NamedParameterJdbcTemplate namedParameterJdbcTemplate ;
+
+
+     // 取得 _ 特定 ( id ) 訂單
+     @Override
+     public Orders getOrderById( Integer orderId ) {
+
+        String sql = "SELECT order_id , user_id , total_amount , created_date , last_modified_date " +
+                     "FROM `orders` WHERE order_id = :orderId" ;
+
+        Map< String , Object > map = new HashMap<>() ;
+        map.put( "orderId" , orderId ) ;
+
+        List< Orders > ordersList = namedParameterJdbcTemplate.query( sql , map , new OrdersRowMapper() ) ;
+
+        if( ordersList.size() > 0 ){
+           return ordersList.get( 0 ) ;
+        }else{
+          return null ;
+        }
+
+     }
+
+
+     // 取得 _ 特定 id 訂單，所包含商品項目
+     @Override
+     public List< OrderItems > getOrderItemsByOrderId( Integer orderId ) {
+
+        String sql = "SELECT oi.order_item_id , oi.order_id , oi.product_id , oi.quantity , oi.amount , p.product_name , p.image_url " +
+                     "FROM order_items AS oi LEFT JOIN products AS p " +
+                     "ON oi.product_id = p.product_id " +
+                     "WHERE oi.order_id = :orderId" ;
+
+        Map< String , Object > map = new HashMap<>() ;
+        map.put( "orderId" , orderId  ) ;
+
+        List< OrderItems > orderItemsList = namedParameterJdbcTemplate.query( sql , map , new OrderItemsRowMapper() ) ;
+
+        return orderItemsList ;
+
+     }
 
 
      // 建立 _ 該筆訂單
@@ -49,6 +92,7 @@ public class OrdersDaoImpl implements OrdersDao {
 
 
      }
+
 
      // 新增 _ 訂單項目
      @Override
@@ -87,11 +131,6 @@ public class OrdersDaoImpl implements OrdersDao {
           namedParameterJdbcTemplate.batchUpdate( sql , parameterSources ) ;
 
      }
-
-
-
-
-
 
 
 
