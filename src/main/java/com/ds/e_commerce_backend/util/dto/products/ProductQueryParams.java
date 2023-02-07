@@ -1,11 +1,11 @@
 package com.ds.e_commerce_backend.util.dto.products;
 
-import com.ds.e_commerce_backend.util.enum_types.ProductsCategory;
 
+import com.ds.e_commerce_backend.util.enum_types.ProductsCategory;
 
 /*
 
- @ 資料轉換 : 統一收集、處理 _ 多個 ( 商品 ) 查詢請求參數
+ @ 資料轉換 : 統一收集、處理 _ 多個 ( 商品 ) 查詢請求：參數
 
 */
 

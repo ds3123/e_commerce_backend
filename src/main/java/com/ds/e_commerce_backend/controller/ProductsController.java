@@ -8,12 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.* ;
 import javax.validation.Valid ;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import java.util.List;
+import java.util.List ;
 
 
 @Validated
@@ -23,12 +22,19 @@ public class ProductsController {
     @Autowired
     private ProductsService productsService ;
 
-
     // 測試
     @GetMapping("/test" )
     public String test(){
 
-       return "Hello Heroku" ;
+       return "Hello Azure 2023.02.07 TTTTTTTTTTTTT" ;
+
+    }
+
+    // 測試 - 改版
+    @GetMapping("/azure" )
+    public String azure(){
+
+        return "Azure 修改、再上傳 02.07" ;
 
     }
 
@@ -51,9 +57,8 @@ public class ProductsController {
 
     ){
 
-
        // 將前端傳來的(多個)參數，統一設定於 _ 資料轉換物件( dto ) ProductQueryParams 中，方便傳遞
-       // 不避逐層傳遞多個參數 ; 後續若有變動，修改幅度較小 --> 降低填錯參數機率
+       // 不必逐層傳遞多個參數 ; 後續若有變動，修改幅度較小 --> 降低填錯參數機率
        ProductQueryParams productQueryParams = new ProductQueryParams() ;
        productQueryParams.setCategory( category ) ;
        productQueryParams.setSearch( search ) ;
@@ -67,7 +72,6 @@ public class ProductsController {
 
        // 取得 _ 資料總筆數
        Integer total = productsService.countProducts( productQueryParams ) ;
-
 
        // 分頁資訊
        Pagination<Products> pagination = new Pagination<>() ;
@@ -97,13 +101,13 @@ public class ProductsController {
 
     // 新增 _ 商品
     @PostMapping("/products")
-    public ResponseEntity<Products> createProduct( @RequestBody @Valid
-                                                   Products products ){
+    public ResponseEntity<Products> createProduct( @RequestBody @Valid Products products ){
+
         // 新增商品後，回傳 _ 新增的商品 id
         Integer productId = productsService.createProduct( products ) ;
 
         // 取得新增的商品
-        Products createdProduct  = productsService.getProductById( productId ) ;
+        Products createdProduct = productsService.getProductById( productId ) ;
 
         // 回傳新增成功訊息( 201 / 新增的商品資訊 )
         return ResponseEntity.status( HttpStatus.CREATED ).body( createdProduct ) ;

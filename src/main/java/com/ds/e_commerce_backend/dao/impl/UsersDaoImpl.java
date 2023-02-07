@@ -1,6 +1,5 @@
 package com.ds.e_commerce_backend.dao.impl;
 
-
 import com.ds.e_commerce_backend.dao.UsersDao;
 import com.ds.e_commerce_backend.dao.model.Users;
 import com.ds.e_commerce_backend.dao.rowmapper.UsersRowMapper;
@@ -23,7 +22,6 @@ public class UsersDaoImpl implements UsersDao {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate ;
 
-
     // 取得 _ 特定 ( id ) 帳號
     @Override
     public Users getUserById( Integer userId ) {
@@ -43,7 +41,6 @@ public class UsersDaoImpl implements UsersDao {
         }
 
     }
-
 
     // 取得 _ 特定 ( email ) 帳號
     @Override

@@ -34,7 +34,7 @@ public class ProductsServiceImpl implements ProductsService {
 
     // 取得 _ 特定 ( id ) 商品
     @Override
-    public Products getProductById(Integer productId) {
+    public Products getProductById( Integer productId ) {
 
         return productsDao.getProductById( productId ) ;
 
