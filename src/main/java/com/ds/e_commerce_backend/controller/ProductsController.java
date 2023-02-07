@@ -26,7 +26,7 @@ public class ProductsController {
     @GetMapping("/test" )
     public String test(){
 
-       return "Hello Azure 2023.02.07 TTTTTTTTTTTTT" ;
+       return "Hello Azure 2023.02.08 Test Azure Devops" ;
 
     }
 
